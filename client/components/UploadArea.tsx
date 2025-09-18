@@ -51,7 +51,7 @@ export default function UploadArea({ onFileSelect, className }: UploadAreaProps)
   return (
     <div
       className={`
-        relative flex flex-col items-center justify-center
+        group relative flex flex-col items-center justify-center
         w-full max-w-[520px] mx-auto
         min-h-[275px] sm:h-[275px]
         px-4 py-10 sm:px-[151px] sm:py-10
@@ -61,7 +61,9 @@ export default function UploadArea({ onFileSelect, className }: UploadAreaProps)
         transition-all duration-200
         cursor-pointer
         hover:border-opacity-20
-        ${isDragOver ? 'border-opacity-30 bg-opacity-80' : ''}
+        hover:shadow-lg hover:shadow-[rgba(224,27,46,0.15)] hover:scale-[1.01] hover:brightness-105
+        ring-1 ring-transparent hover:ring-[rgba(224,27,46,0.25)] ring-offset-2 ring-offset-white
+        ${isDragOver ? 'border-opacity-30 bg-opacity-80 ring-2 ring-[rgba(224,27,46,0.35)] ring-offset-2 ring-offset-white' : ''}
         ${className || ''}
       `}
       onDragOver={handleDragOver}

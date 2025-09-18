@@ -1,3 +1,5 @@
+import { SPACING } from "@/lib/spacing";
+
 interface ResultData {
   id: number;
   sectionId: string;
@@ -54,15 +56,15 @@ export default function ResultsScreen({
   
   return (
     <div className="min-h-screen bg-white">
-      {/* Header - Logo and Title */}
-      <div className="absolute top-0 left-0 p-4 sm:p-6 lg:p-8">
+      {/* Logo and Title Section */}
+      <div className="absolute top-0 left-0 sm:p-6 lg:p-8 flex flex-col items-center">
         <img
-          src="https://api.builder.io/api/v1/image/assets/TEMP/0cad4c1e162e1748039394e2dd4f37455b196782?width=354"
+          src="/kahua-logo.webp"
           alt="Kahua Logo"
           className="w-[177px] h-[89px] object-contain"
         />
         <div
-          className="mt-6 text-black text-2xl font-medium"
+          className="text-black text-2xl font-medium text-center ml-2"
           style={{
             fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
             letterSpacing: '-0.96px'
@@ -70,17 +72,22 @@ export default function ResultsScreen({
         >
           Submittal Wizard
         </div>
+      </div>
 
-        {/* File Information with Back Button */}
-        <div className="mt-[39px] flex items-center gap-4">
+      {/* Content */}
+      <div className="pt-44 sm:pt-100 ml-2 mt-10">
+        {/* File row with Back, info, and Generate aligned */}
+              <div className={`mt-6 ${SPACING.alignInsetX} flex items-center justify-between ${SPACING.fileRowGap}`}>
+        <div className={`flex items-center ${SPACING.fileLeftGroupGap} min-w-0`}>
           {/* Back Arrow */}
           <button 
             onClick={onBack}
-            className="flex-shrink-0 hover:opacity-70 transition-opacity"
+            className="flex-shrink-0 hover:opacity-66 transition-opacity"
+            aria-label="Back"
           >
             <svg
-              width="48"
-              height="48"
+              width={`${SPACING.backArrowPx}`}
+              height={`${SPACING.backArrowPx}`}
               viewBox="0 0 48 48"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -95,18 +102,19 @@ export default function ResultsScreen({
             </svg>
           </button>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0 leading-tight">
             <div
-              className="text-black text-2xl font-medium"
+              className="text-black text-xl sm:text-2xl font-medium truncate max-w-[65ch]"
               style={{
                 fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
                 letterSpacing: '-0.96px'
               }}
+              title={fileName}
             >
               {fileName}
             </div>
             <div
-              className="text-black text-base font-medium opacity-70"
+              className={`${SPACING.fileMetaText}`}
               style={{
                 fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
                 letterSpacing: '-0.64px'
@@ -118,7 +126,7 @@ export default function ResultsScreen({
         </div>
 
         {/* Generate Button */}
-        <div className="absolute right-4 sm:right-6 lg:right-8 top-[151px]">
+        <div className="flex items-center">
           <button
             onClick={onGenerate}
             className="flex items-center gap-2 px-[7px] py-[7px] pr-4 rounded-[13px] bg-gradient-to-r from-[rgba(245,134,18,0.20)] to-[rgba(224,27,46,0.40)] hover:from-[rgba(245,134,18,0.30)] hover:to-[rgba(224,27,46,0.50)] transition-all"
@@ -141,31 +149,15 @@ export default function ResultsScreen({
       </div>
 
       {/* Results Table */}
-      <div className="pt-[209px] px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="w-full max-w-[1385px] mx-auto rounded-[13px] bg-gradient-to-r from-[rgba(245,134,18,0.05)] to-[rgba(224,27,46,0.10)] p-5">
+      <div className="mt-4 pb-8 px-4">
+        <div className={`w-full rounded-[13px] bg-gradient-to-r from-[rgba(245,134,18,0.05)] to-[rgba(224,27,46,0.10)] ${SPACING.tableInnerPad}`}>
           
           {/* Table Header */}
-          <div className="flex items-center gap-[81px] mb-[38px] px-[19px]">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="flex-shrink-0"
-            >
-              <path
-                d="M22.1667 3.5H5.83333C4.54467 3.5 3.5 4.54467 3.5 5.83333V22.1667C3.5 23.4553 4.54467 24.5 5.83333 24.5H22.1667C23.4553 24.5 24.5 23.4553 24.5 22.1667V5.83333C24.5 4.54467 23.4553 3.5 22.1667 3.5Z"
-                stroke="#1E1E1E"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            
-            <div className="flex items-center gap-[81px] flex-1">
+          <div className={`flex items-center ${SPACING.tableHeaderGap} mb-6`}>
+            <input type="checkbox" className="w-5 h-5 rounded-md border-2 border-[#1E1E1E]/60 bg-white/70 shadow-sm transition-all duration-150 ease-out accent-[rgb(224,27,46)] hover:scale-[1.05] hover:border-[#1E1E1E]/80 focus:outline-none focus:ring-2 focus:ring-[rgba(224,27,46,0.35)] focus:ring-offset-2 focus:ring-offset-white" />
+            <div className={`flex items-center ${SPACING.tableHeaderGap} flex-1 min-w-0`}>
               <div
-                className="w-[144px] text-black text-2xl font-bold"
+                className={`${SPACING.colWidth.sectionId} text-black text-2xl font-bold`}
                 style={{
                   fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
                   letterSpacing: '-0.96px'
@@ -174,7 +166,7 @@ export default function ResultsScreen({
                 Section ID
               </div>
               <div
-                className="w-[220px] text-black text-2xl font-bold"
+                className={`${SPACING.colWidth.section} text-black text-2xl font-bold`}
                 style={{
                   fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
                   letterSpacing: '-0.96px'
@@ -183,7 +175,7 @@ export default function ResultsScreen({
                 Section
               </div>
               <div
-                className="w-[520px] text-black text-2xl font-bold"
+                className={`${SPACING.colWidth.title} text-black text-2xl font-bold`}
                 style={{
                   fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
                   letterSpacing: '-0.96px'
@@ -192,7 +184,7 @@ export default function ResultsScreen({
                 Title
               </div>
               <div
-                className="text-black text-2xl font-bold"
+                className="ml-auto text-black text-2xl font-bold text-right"
                 style={{
                   fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
                   letterSpacing: '-0.96px'
@@ -206,14 +198,14 @@ export default function ResultsScreen({
           {/* Table Rows */}
           <div className="space-y-[44px]">
             {results.map((result, index) => (
-              <div key={result.id + index} className="flex items-center gap-[81px] px-[19px]">
+              <div key={result.id + index} className="flex items-center gap-6 md:gap-12">
                 <input
                   type="checkbox"
                   defaultChecked={result.checked}
-                  className="w-7 h-7 rounded border-4 border-[#1E1E1E] accent-current flex-shrink-0"
+                  className="w-5 h-5 rounded-md border-2 border-[#1E1E1E]/60 bg-white/70 shadow-sm transition-all duration-150 ease-out accent-[rgb(224,27,46)] hover:scale-[1.05] hover:border-[#1E1E1E]/80 focus:outline-none focus:ring-2 focus:ring-[rgba(224,27,46,0.35)] focus:ring-offset-2 focus:ring-offset-white flex-shrink-0"
                 />
                 
-                <div className="flex items-center gap-[81px] flex-1">
+                <div className={`flex items-center ${SPACING.tableRowGap} flex-1 min-w-0`}>
                   <div
                     className="w-[144px] text-black/77 text-2xl font-medium"
                     style={{
@@ -231,15 +223,16 @@ export default function ResultsScreen({
                     {result.section}
                   </div>
                   <div
-                    className="w-[520px] text-black/77 text-2xl font-medium"
+                    className="flex-1 min-w-0 text-black/77 text-2xl font-medium truncate"
                     style={{
                       fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif'
                     }}
+                    title={result.title}
                   >
                     {result.title}
                   </div>
                   <div
-                    className="text-black/77 text-2xl font-medium"
+                    className="ml-auto text-black/77 text-2xl font-medium text-right"
                     style={{
                       fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif'
                     }}
@@ -253,5 +246,6 @@ export default function ResultsScreen({
         </div>
       </div>
     </div>
+  </div>
   );
 }

@@ -82,14 +82,14 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-white">
       {/* Logo and Title Section */}
-      <div className="absolute top-0 left-0 p-4 sm:p-6 lg:p-8">
+      <div className="absolute top-0 left-0 sm:p-6 lg:p-8 flex flex-col items-center">
         <img
-          src="https://api.builder.io/api/v1/image/assets/TEMP/0cad4c1e162e1748039394e2dd4f37455b196782?width=354"
+          src="/kahua-logo.webp"
           alt="Kahua Logo"
           className="w-[177px] h-[89px] object-contain"
         />
         <div
-          className="mt-6 text-black text-2xl font-medium"
+          className="text-black text-2xl font-medium text-center ml-2"
           style={{
             fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
             letterSpacing: '-0.96px'
