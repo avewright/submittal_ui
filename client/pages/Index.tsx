@@ -1,62 +1,55 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import UploadArea from "@/components/UploadArea";
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
+  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
-    }
+  const handleFileSelect = (files: FileList) => {
+    setUploadedFiles(files);
+    console.log("Files selected:", Array.from(files).map(f => f.name));
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
+    <div className="min-h-screen bg-white">
+      {/* Logo and Title Section */}
+      <div className="absolute top-0 left-0 p-4 sm:p-6 lg:p-8">
+        <img
+          src="https://api.builder.io/api/v1/image/assets/TEMP/0cad4c1e162e1748039394e2dd4f37455b196782?width=354"
+          alt="Kahua Logo"
+          className="w-[177px] h-[89px] object-contain"
+        />
+        <div
+          className="mt-6 text-black text-2xl font-medium"
+          style={{
+            fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
+            letterSpacing: '-0.96px'
+          }}
+        >
+          Submittal Wizard
+        </div>
       </div>
+
+      {/* Main Upload Area - Centered */}
+      <div className="min-h-screen flex items-center justify-center px-4 py-20">
+        <UploadArea
+          onFileSelect={handleFileSelect}
+          className="w-full max-w-[520px]"
+        />
+      </div>
+
+      {/* Debug: Show uploaded files (remove in production) */}
+      {uploadedFiles && uploadedFiles.length > 0 && (
+        <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg max-w-sm">
+          <h4 className="font-medium mb-2">Uploaded Files:</h4>
+          <ul className="text-sm space-y-1">
+            {Array.from(uploadedFiles).map((file, index) => (
+              <li key={index} className="truncate">
+                {file.name} ({(file.size / 1024).toFixed(1)} KB)
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
