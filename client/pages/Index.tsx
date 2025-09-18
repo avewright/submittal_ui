@@ -1,14 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UploadArea from "@/components/UploadArea";
+import LoadingScreen from "@/components/LoadingScreen";
+import ResultsScreen from "@/components/ResultsScreen";
+
+type WorkflowStep = "upload" | "loading" | "results";
+
+interface FileInfo {
+  name: string;
+  size: string;
+  pageCount: string;
+}
 
 export default function Index() {
-  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
+  const [currentStep, setCurrentStep] = useState<WorkflowStep>("upload");
+  const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
 
   const handleFileSelect = (files: FileList) => {
-    setUploadedFiles(files);
-    console.log("Files selected:", Array.from(files).map(f => f.name));
+    if (files.length > 0) {
+      const file = files[0];
+
+      // Extract file info and simulate page count
+      const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
+      const simulatedPageCount = Math.floor(Math.random() * 100) + 20; // Random 20-120 pages
+
+      setFileInfo({
+        name: file.name,
+        size: `${sizeInMB} MB`,
+        pageCount: `${simulatedPageCount} pages`
+      });
+
+      // Transition to loading
+      setCurrentStep("loading");
+    }
   };
 
+  // Auto-transition from loading to results after 3 seconds
+  useEffect(() => {
+    if (currentStep === "loading") {
+      const timer = setTimeout(() => {
+        setCurrentStep("results");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentStep]);
+
+  const handleBack = () => {
+    setCurrentStep("upload");
+    setFileInfo(null);
+  };
+
+  const handleGenerate = () => {
+    console.log("Generate button clicked - integrate with your submittal generation logic");
+    // Here you would integrate with your actual submittal generation system
+  };
+
+  // Render based on current step
+  if (currentStep === "loading") {
+    return (
+      <LoadingScreen
+        fileName={fileInfo?.name}
+        fileSize={fileInfo?.size}
+        pageCount={fileInfo?.pageCount}
+      />
+    );
+  }
+
+  if (currentStep === "results") {
+    return (
+      <ResultsScreen
+        fileName={fileInfo?.name}
+        fileSize={fileInfo?.size}
+        pageCount={fileInfo?.pageCount}
+        onBack={handleBack}
+        onGenerate={handleGenerate}
+      />
+    );
+  }
+
+  // Default: Upload screen
   return (
     <div className="min-h-screen bg-white">
       {/* Logo and Title Section */}
@@ -36,20 +106,6 @@ export default function Index() {
           className="w-full max-w-[520px]"
         />
       </div>
-
-      {/* Debug: Show uploaded files (remove in production) */}
-      {uploadedFiles && uploadedFiles.length > 0 && (
-        <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg max-w-sm">
-          <h4 className="font-medium mb-2">Uploaded Files:</h4>
-          <ul className="text-sm space-y-1">
-            {Array.from(uploadedFiles).map((file, index) => (
-              <li key={index} className="truncate">
-                {file.name} ({(file.size / 1024).toFixed(1)} KB)
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }
