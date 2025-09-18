@@ -57,6 +57,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Design-specific colors
+        upload: {
+          border: "rgba(0, 0, 0, 0.1)",
+          orange: "rgb(245, 134, 18)",
+          red: "rgb(224, 27, 46)",
+        },
+      },
+      backgroundImage: {
+        "upload-gradient": "linear-gradient(254deg, rgba(245, 134, 18, 0.10) 0%, rgba(224, 27, 46, 0.20) 100%)",
       },
       borderRadius: {
         lg: "var(--radius)",
